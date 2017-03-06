@@ -1,26 +1,110 @@
 import java.util.HashMap;
 import java.util.Vector;
-import java.lang.thread;
+import java.lang.Thread;
+import java.util.Random;
+
 /**
  * Exam 1 Multithreaded Factorial Calculator
- * @author Alex
+ * 
+ * @author Alex Blair
  * @version 1.0.0
  *
  */
+// The number of threads will be 500. 1 for each 200 numbers. 100,000 total from
+// 1 to 10,000
+public class Main extends Thread implements Runnable {
 
-public class Main implements Runnable{
-	// Create variables for values and the key for the Map.
-	int value;
-	int n;
-	// Set up the Vector for the results.
-	Vector<Integer> vec = new Vector();
-	// Set up the HashMap to set the key as an Integer n, and the values are the Vector of results.
-	HashMap<Integer, Vector<Integer>> Map = new HashMap<Integer, Vector<Integer>>();
+	Random rand = new Random();
+	// Set the random seed
+	int threadnum = 0;
+	// Set the initial number of custom threads
+	int num = rand.nextInt(10000) + 1;
+	// num is the random number initialization within the range 1 to 10,000.
+	private static final int max = 501;
+	// Max is the max number of calculations
 	
-	// The number of threads will be 500. 1 for each 200 numbers. 100,000 total
+	int input;
+
+	public Vector<Integer> facvec = new Vector<Integer>();
+	// Set up the Vector for the results
+
+	public HashMap<Integer, Vector<Integer>> Map = new HashMap<Integer, Vector<Integer>>();
+	// Create the Hashmap for the vector of calculated factors
+
+	{
+		
+		
+		
+			
+		createThread();
+		run();
+
+		// Print out the values within the map.
+		//for ()
+		System.out.printf("%d", Map.containsKey(input));
+
+	}
+
+	public void createThread() {
+
+		// If the number of threads executing is less than the max create and
+		// start
+		// a new thread.
+		// the max is 100,000/200 = 500.
+		Thread[] t = new Thread[max];
+		for (int i = 0; i < max; i++) {
+			t[i] = new Thread();
+			t[i].start();
+		}
+ 
+		for (int j = 0; j <= max; j++) {
+			try {
+				t[j].join();
+			} catch (InterruptedException ex) {;}
+		}
+
+	}
+
+	public void run() {
+
+		// While num does not equal the numbers already indexed within the map
+		// save that number
+		// mod it by itself
+		// if that result is 0 then take
+
+		do {
+			int x = num;
+			// saves the random number into x
+			input = x;
+			int modnum = x;
+			// saves the random number into modnum as well
+			// This is to start the mod with the original number
+			// but I wanted to seperate it into two variables
+			int result = x % modnum;
+			// mod x and modnum
+			if (result == 0) {
+				// if the result of the mod is 0 then the modnum is a factor
+				facvec.add(modnum);
+				// add the modnum to the vector of values
+				synchronized (this) {
+					// Since this block accesses the Map it must be synced
+					Map.put(input, facvec);
+					// this puts the input as the key in the map and the facvec
+					// as the values
+					modnum--;
+					// then decrement modnum and try again
+				}
+			} else {
+				// If the mod result is not 0 then decrement modnum and try
+				// again
+				modnum--;
+			}
+		} while (Map.containsKey(input) == false);
+
+	}
 
 	public static void main(String[] args) {
-		
+		Main m = new Main();
 
 	}
 

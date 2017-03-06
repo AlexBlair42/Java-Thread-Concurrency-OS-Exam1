@@ -1,0 +1,41 @@
+import java.util.Random;
+import java.util.Vector;
+public class MainTest {
+
+	public static void main(String[] args) {
+		Random rand = new Random();
+		int num = rand.nextInt(10000)+1;
+		
+		Vector<Integer> facvec = new Vector<Integer>();
+		do{
+			int x = num;
+			// saves the random number into x
+			int modnum = x;
+			// saves the random number into modnum as well
+			// This is to start the mod with the original number
+			// but I wanted to seperate it into two variables
+			int result = x % modnum;
+			// mod x and modnum
+			if (result == 0) {
+				// if the result of the mod is 0 then the modnum is a factor
+				facvec.add(modnum);
+				// add the modnum to the vector of values
+					// Since this block accesses the Map it must be synced
+				
+					// this puts the input as the key in the map and the facvec
+					// as the values
+					modnum--;
+					// then decrement modnum and try again
+				
+			} else {
+				// If the mod result is not 0 then decrement modnum and try
+				// again
+				modnum--;
+			}
+			
+			System.out.printf("%d", facvec.toArray());
+		}while(num < num+1);
+
+	}
+
+}
