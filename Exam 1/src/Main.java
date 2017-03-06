@@ -1,6 +1,6 @@
-import java.lang.thread;
 import java.util.HashMap;
 import java.util.Vector;
+import java.lang.thread;
 /**
  * Exam 1 Multithreaded Factorial Calculator
  * @author Alex
